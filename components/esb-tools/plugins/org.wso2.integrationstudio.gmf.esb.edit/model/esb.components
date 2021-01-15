@@ -738,6 +738,21 @@
         <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_E7vUzPJnEei6boXzpRIfnA" name="HttpMethod" views="_E7wjM_JnEei6boXzpRIfnA">
           <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/HttpMethod"/>
         </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_5i5xEFb9EeuyUPI2gWFdWQ" name="oAuthGrantType" views="_YXvMsFb9EeuyUPI2gWFdWQ">
+          <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/OAuthGrantType"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_J5e98Fb-EeuyUPI2gWFdWQ" name="oAuthClientId" views="_eKKeUFb9EeuyUPI2gWFdWQ">
+          <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/OAuthClientId"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_VOH68Fb-EeuyUPI2gWFdWQ" name="oAuthClientSecret" views="_gJBXsFb9EeuyUPI2gWFdWQ">
+          <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/OAuthClientSecret"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_Z17MgFb-EeuyUPI2gWFdWQ" name="oAuthRefreshToken" views="_iz0xEFb9EeuyUPI2gWFdWQ">
+          <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/OAuthRefreshToken"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_emW1oFb-EeuyUPI2gWFdWQ" name="oAuthTokenUrl" views="_k9oWMFb9EeuyUPI2gWFdWQ">
+          <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//HTTPEndpoint/OAuthTokenUrl"/>
+        </properties>
         <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_gY98sFw0EemiZdIEHfVl3g" name="failoverNonRetryErrorCodes" views="_7DhlsFwyEemiZdIEHfVl3g">
           <model xsi:type="ecore:EAttribute" href="platform:/resource/org.wso2.integrationstudio.gmf.esb/model/esb.ecore#//AbstractEndPoint/failoverNonRetryErrorCodes"/>
         </properties>
@@ -6886,6 +6901,24 @@
         <elements xsi:type="eef-views:Container" xmi:id="_eySksFwyEemiZdIEHfVl3g" name="Failover Error Codes">
           <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
           <elements xsi:type="eef-views:ElementEditor" xmi:id="_7DhlsFwyEemiZdIEHfVl3g" name="failoverNonRetryErrorCodes">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+        <elements xsi:type="eef-views:Container" xmi:id="_OCB9IFb9EeuyUPI2gWFdWQ" name="oAuthConfiguration">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_YXvMsFb9EeuyUPI2gWFdWQ" name="oAuthGrantType">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_eKKeUFb9EeuyUPI2gWFdWQ" name="oAuthClientId">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_gJBXsFb9EeuyUPI2gWFdWQ" name="oAuthClientSecret">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_iz0xEFb9EeuyUPI2gWFdWQ" name="oAuthRefreshToken">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_k9oWMFb9EeuyUPI2gWFdWQ" name="oAuthTokenUrl">
             <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
           </elements>
         </elements>
