@@ -5329,6 +5329,9 @@ public class EsbMessages extends NLS {
 	public static String CacheMediatorPropertiesEditionPart_HashGeneratorLabel;
 
 	
+	public static String CacheMediatorPropertiesEditionPart_HeadersToIncludeInHashLabel;
+
+	
 	public static String CacheMediatorPropertiesEditionPart_DescriptionLabel;
 
 	

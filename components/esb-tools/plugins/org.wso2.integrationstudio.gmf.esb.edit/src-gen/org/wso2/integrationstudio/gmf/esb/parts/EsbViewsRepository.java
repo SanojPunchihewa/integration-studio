@@ -4189,6 +4189,9 @@ public class EsbViewsRepository {
 			
 			public static String hashGenerator = "esb::CacheMediator::Protocol::hashGenerator";
 			
+			
+			public static String headersToIncludeInHash = "esb::CacheMediator::Protocol::headersToIncludeInHash";
+			
 	
 		}
 	
