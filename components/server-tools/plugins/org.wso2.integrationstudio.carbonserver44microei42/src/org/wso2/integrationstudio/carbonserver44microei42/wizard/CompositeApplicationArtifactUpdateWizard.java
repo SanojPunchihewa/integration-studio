@@ -46,6 +46,7 @@ import org.wso2.integrationstudio.carbonserver44microei42.register.product.serve
 import org.wso2.integrationstudio.distribution.project.model.DataTransferObject;
 import org.wso2.integrationstudio.distribution.project.model.DependencyData;
 import org.wso2.integrationstudio.distribution.project.ui.wizard.DistributionProjectExportWizardPage;
+import org.wso2.integrationstudio.distribution.project.ui.wizard.DistributionProjectRuntimeWizardPage;
 import org.wso2.integrationstudio.distribution.project.util.ArtifactTypeMapping;
 import org.wso2.integrationstudio.distribution.project.util.DistProjectUtils;
 import org.wso2.integrationstudio.distribution.project.validator.ProjectList;
@@ -67,6 +68,7 @@ public class CompositeApplicationArtifactUpdateWizard extends Wizard implements 
     private static IIntegrationStudioLog log = Logger.getLog(Activator.PLUGIN_ID);
 
     DistributionProjectExportWizardPage mainPage;
+    DistributionProjectRuntimeWizardPage runtimePage;
     private CompositeProjectSelectionPage compositeProjectSelectionPage;
     private IFile pomFileRes;
     private File pomFile;
@@ -162,6 +164,7 @@ public class CompositeApplicationArtifactUpdateWizard extends Wizard implements 
             if (isCompositeSelectionPageNeeded) {
                 addPage(compositeProjectSelectionPage);
             }
+            addPage(runtimePage);
             addPage(mainPage);
             super.addPages();
         }
@@ -267,6 +270,12 @@ public class CompositeApplicationArtifactUpdateWizard extends Wizard implements 
                 }
 
                 mainPage = new DistributionProjectExportWizardPage(parentPrj);
+                
+                String integrationProjectPath = (selectedProject.getLocation().uptoSegment(selectedProject.getLocation().segmentCount() - 1)).toOSString();
+                File integrationProjectPOMFile = new File(integrationProjectPath, "pom.xml");
+                MavenProject integrationProject = MavenUtils.getMavenProject(integrationProjectPOMFile);
+                
+                runtimePage = new DistributionProjectRuntimeWizardPage(integrationProject);
             } else {
                 mainPage = new DistributionProjectExportWizardPage(parentPrj, dataObject);
             }
@@ -276,6 +285,8 @@ public class CompositeApplicationArtifactUpdateWizard extends Wizard implements 
             mainPage.setMissingDependencyList(
                     (Map<String, Dependency>) ((HashMap<String, Dependency>) mainPage.getDependencyList()).clone());
             mainPage.setServerRoleList(serverRoleList);
+            
+            // runtimePage = new DistributionProjectRuntimeWizardPage(parentPrj);
 
         } catch (CoreException e) {
             log.error("Unable to create ESB debug launch profile", e);
