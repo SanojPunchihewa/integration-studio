@@ -22,6 +22,7 @@ import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -372,6 +373,8 @@ public class ESBSolutionProjectCreationWizard extends AbstractWSO2ProjectCreatio
             dataSourceProjectCreationWizard.setModel(dataSourceModel);
             dataSourceProjectCreationWizard.performFinish();
         }
+        
+        addRuntimeVersionToPOM(pomFile, esbSolutionProjectModel.getProjectRuntimeVersion());
 
         getShell().getDisplay().asyncExec(new Runnable() {
             @Override
@@ -396,6 +399,16 @@ public class ESBSolutionProjectCreationWizard extends AbstractWSO2ProjectCreatio
 		esbSolutionProjectModel.getMavenInfo().setArtifactId(name);
 		esbSolutionProjectModel.getMavenInfo().setVersion(mavenProject.getVersion());
 	}
+
+	private void addRuntimeVersionToPOM(File pomLocation, String runtimeVersion) {
+        MavenProject mavenProject = getMavenProject(pomLocation);
+        mavenProject.getProperties().put("project.runtime.version", runtimeVersion);
+        try {
+            MavenUtils.saveMavenProject(mavenProject, pomFile);
+        } catch (Exception e) {
+            log.error("Error occured while trying to save the maven project", e);
+        }
+    }
 
 	public MavenProject getMavenProject(File pomLocation) {
 		MavenProject mavenProject = null;

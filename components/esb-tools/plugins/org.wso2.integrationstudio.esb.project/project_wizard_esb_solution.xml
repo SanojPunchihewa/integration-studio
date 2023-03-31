@@ -11,6 +11,9 @@
 			error="Please give a name to create the Integration project ">
 			<data modelProperty="mmm.project.name" type="string"
 				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Integration Project Name</data>
+				
+		    <data modelProperty="project.runtime.version" type="string"
+				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Runtime version</data>
 
 			<data modelProperty="mmm.project.choice" type="choice"
 				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Wrap child modules with the parent project</data>

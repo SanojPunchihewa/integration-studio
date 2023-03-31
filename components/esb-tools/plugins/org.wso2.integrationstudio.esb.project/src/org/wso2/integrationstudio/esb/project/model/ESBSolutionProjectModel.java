@@ -28,6 +28,7 @@ public class ESBSolutionProjectModel extends ESBProjectModel {
     private String dockerExporterProjectName;
     private String kubernetesExporterProjectName;
     private String mmmProjectName;
+    private String projectRuntimeVersion;
     private String dataServiceProjectName;
     private String dataSourceProjectName;
     private boolean registryProjectChecked = false;
@@ -45,7 +46,15 @@ public class ESBSolutionProjectModel extends ESBProjectModel {
     public String getMMMProjectName() {
         return this.mmmProjectName;
     }
-    
+
+    public String getProjectRuntimeVersion() {
+        return projectRuntimeVersion;
+    }
+
+    public void setProjectRuntimeVersion(String projectRuntimeVersion) {
+        this.projectRuntimeVersion = projectRuntimeVersion;
+    }
+
     public void setConfigProjectChecked(boolean isConfigProjectChecked) {
         this.isConfigProjectChecked = isConfigProjectChecked;
     }
@@ -157,6 +166,8 @@ public class ESBSolutionProjectModel extends ESBProjectModel {
                 return isDataSourceProjectChecked();
             } else if (key.equals(DATA_SOURCE_PROJECT_NAME)) {
                 return getDataSourceProjectName();
+            } else if (key.equals(PROJECT_RUNTIME_VERSION)) {
+                return getProjectRuntimeVersion();
             }
         }
         return modelPropertyValue;
@@ -232,6 +243,8 @@ public class ESBSolutionProjectModel extends ESBProjectModel {
             setDataServiceProjectChecked((boolean) data);
         } else if (key.equals(DATA_SOURCE_PROJECT_CHECKED)) {
             setDataSourceProjectChecked((boolean) data);
+        } else if (key.equals(PROJECT_RUNTIME_VERSION)) {
+            setProjectRuntimeVersion(value);
         }
 
         return returnResult;
