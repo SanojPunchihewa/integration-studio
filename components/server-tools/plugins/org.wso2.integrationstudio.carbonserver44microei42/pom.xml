@@ -19,7 +19,7 @@
 			<artifactId>download-maven-plugin</artifactId>
 			<version>${maven.download.plugin}</version>
 			<executions>
-				<execution>
+				<!-- <execution>
 					<id>download-mi-runtime</id>
 					<phase>initialize</phase>
 					<goals>
@@ -30,8 +30,8 @@
 						<unpack>false</unpack>
 						<outputDirectory>${project.basedir}/resources/server/</outputDirectory>
 					</configuration>
-				</execution>
-				<execution>
+				</execution> -->
+				<!-- <execution>
 					<id>download-mi-update-scripts</id>
 					<phase>initialize</phase>
 					<goals>
@@ -42,7 +42,7 @@
 						<unpack>false</unpack>
 						<outputDirectory>${project.basedir}/resources/server/</outputDirectory>
 					</configuration>
-				</execution>
+				</execution>-->
 			</executions>
 		</plugin>
 		<plugin>
@@ -50,7 +50,7 @@
 			<groupId>org.codehaus.mojo</groupId>
 			<version>${org.codehaus.mojo.exec.maven.plugin}</version>
 			<executions>
-				<execution>
+				<!-- <execution>
 					<id>script-chmod</id>
 					<phase>install</phase>
 					<goals>
@@ -74,7 +74,7 @@
 						<commandlineArgs>${WSO2_USERNAME} ${WSO2_PASSWORD} ${mi.product.version}</commandlineArgs>
 						<executable>${project.basedir}/resources/scripts/wso2-update.sh</executable>
 					</configuration>
-				</execution>
+				</execution> -->
 				<execution>
 					<id>change-mi-deployment-toml</id>
 					<phase>initialize</phase>

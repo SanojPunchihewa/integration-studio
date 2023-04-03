@@ -87,13 +87,57 @@ public class MicroIntegratorInstance {
         return instance;
     }
 
+    public boolean serverExists(String serverName) {
+        boolean isServerExists= false;
+        try {
+            IServer[] availableServers = ServerCore.getServers();
+            for (IServer tempServers : availableServers) {
+                if (tempServers.getName().equals(serverName)) {
+                    server = tempServers.createWorkingCopy();
+                    microIntegratorServer = server.saveAll(false, new NullProgressMonitor());
+                    isServerExists = true;
+                }
+            }
+        } catch (CoreException e) {
+            log.error("Exception occured while trying to delete the old runtime", e);
+        }
+        return isServerExists;
+    }
+    
+    public void addNewServer(String runtimeType, String serverType, String runtimeName, String serverName) {
+
+        IRuntimeType runtimeType420 = ServerCore.findRuntimeType(ServerConstants.WSO2_MI_110_RUNTIME);
+        IServerType serverType420 = ServerCore.findServerType(ServerConstants.WSO2_MI_110_SERVER_TYPE);
+
+        try {
+           
+            NullProgressMonitor progressMonitor = new NullProgressMonitor();
+
+            IRuntimeWorkingCopy runtime = runtimeType420.createRuntime("",
+                    progressMonitor);
+            runtime.setName(runtimeName);
+            runtime.setLocation(new Path(getServerHome()));
+
+            IRuntime microIntegratorRuntime = runtime.save(true, progressMonitor);
+            server = serverType420.createServer("", null, microIntegratorRuntime,
+                    progressMonitor);
+            server.setName(serverName);
+            readConfigs(server);
+
+            microIntegratorServer = server.saveAll(false, progressMonitor);
+            
+        } catch (CoreException e) {
+            log.error("Error while creating Micro Integrator profile.", e);
+        }
+    }
+    
     /**
      * Setup micro-integrator server as a eclipse server runtime
      */
     private void setupServer() {
 
-        IRuntimeType runtimeType420 = ServerCore.findRuntimeType(ServerConstants.WSO2_MI_420_RUNTIME);
-        IServerType serverType420 = ServerCore.findServerType(ServerConstants.WSO2_MI_420_SERVER_TYPE);
+        IRuntimeType runtimeType420 = ServerCore.findRuntimeType(ServerConstants.WSO2_MI_110_RUNTIME);
+        IServerType serverType420 = ServerCore.findServerType(ServerConstants.WSO2_MI_110_SERVER_TYPE);
         boolean isServerExists= false;
         
         // Check already existing servers and runtime of micro-ei
@@ -101,7 +145,7 @@ public class MicroIntegratorInstance {
             IServer[] availableServers = ServerCore.getServers();
             for (IServer tempServers : availableServers) {
                 if ((tempServers.getServerType().equals(serverType420) && tempServers.getName()
-                        .equals(ServerConstants.MICRO_INTEGRATOR_SERVER + " " + ServerConstants.VERSION))) {
+                        .equals(ServerConstants.MICRO_INTEGRATOR_SERVER + " " + "1.1.0"))) {
                     server = tempServers.createWorkingCopy();
                     microIntegratorServer = server.saveAll(false, new NullProgressMonitor());
                     isServerExists = true;
@@ -115,15 +159,15 @@ public class MicroIntegratorInstance {
             if (!isServerExists) {
                 NullProgressMonitor progressMonitor = new NullProgressMonitor();
 
-                IRuntimeWorkingCopy runtime = runtimeType420.createRuntime("org.wso2.micro.integrator.runtime42",
+                IRuntimeWorkingCopy runtime = runtimeType420.createRuntime("org.wso2.micro.integrator.runtime11",
                         progressMonitor);
-                runtime.setName(ServerConstants.MICRO_INTEGRATOR_RUNTIME + " " + ServerConstants.VERSION);
+                runtime.setName(ServerConstants.MICRO_INTEGRATOR_RUNTIME + " " + "1.1.0");
                 runtime.setLocation(new Path(getServerHome()));
 
                 IRuntime microIntegratorRuntime = runtime.save(true, progressMonitor);
-                server = serverType420.createServer("org.wso2.micro.integrator.server42", null, microIntegratorRuntime,
+                server = serverType420.createServer("org.wso2.micro.integrator.server11", null, microIntegratorRuntime,
                         progressMonitor);
-                server.setName(ServerConstants.MICRO_INTEGRATOR_SERVER + " " + ServerConstants.VERSION);
+                server.setName(ServerConstants.MICRO_INTEGRATOR_SERVER + " " + "1.1.0");
                 readConfigs(server);
 
                 microIntegratorServer = server.saveAll(false, progressMonitor);
@@ -161,35 +205,36 @@ public class MicroIntegratorInstance {
      * @return return path as a string
      */
     public String getServerHome() {
-        String microInteratorPath = null;
-        String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-        if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-            // check if EI Tooling is in Application folder for MAC
-            boolean isRelativeToolingAppExists = false;
-            File macOSRelativeToolingApp = null;
-            try {
-                macOSRelativeToolingApp = new File((new File(".").getCanonicalFile()).getParent().toString() 
-                        + File.separator + "Eclipse");
-                if (macOSRelativeToolingApp.exists()) {
-                    isRelativeToolingAppExists = true;
-                }
-            } catch (IOException e) {}
-            if (isRelativeToolingAppExists && macOSRelativeToolingApp != null) {
-                microInteratorPath = macOSRelativeToolingApp.getAbsolutePath() + File.separator + ServerConstants.MICRO_ESB_PATH;
-            } else if (new File(ServerConstants.INTEGRATION_STUDIO_HOME_MAC).exists()) {
-                microInteratorPath = ServerConstants.INTEGRATION_STUDIO_HOME_MAC + File.separator
-                        + ServerConstants.MICRO_ESB_PATH;
-            } else {
-                java.nio.file.Path path = Paths.get("");
-                microInteratorPath = (path).toAbsolutePath().toString() + File.separator
-                        + ServerConstants.MICRO_ESB_PATH;
-            }
-
-        } else {
-            java.nio.file.Path path = Paths.get("");
-            microInteratorPath = (path).toAbsolutePath().toString() + File.separator + ServerConstants.MICRO_ESB_PATH;
-        }
-        return microInteratorPath;
+//        String microInteratorPath = null;
+//        String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+//        if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
+//            // check if EI Tooling is in Application folder for MAC
+//            boolean isRelativeToolingAppExists = false;
+//            File macOSRelativeToolingApp = null;
+//            try {
+//                macOSRelativeToolingApp = new File((new File(".").getCanonicalFile()).getParent().toString() 
+//                        + File.separator + "Eclipse");
+//                if (macOSRelativeToolingApp.exists()) {
+//                    isRelativeToolingAppExists = true;
+//                }
+//            } catch (IOException e) {}
+//            if (isRelativeToolingAppExists && macOSRelativeToolingApp != null) {
+//                microInteratorPath = macOSRelativeToolingApp.getAbsolutePath() + File.separator + ServerConstants.MICRO_ESB_PATH;
+//            } else if (new File(ServerConstants.INTEGRATION_STUDIO_HOME_MAC).exists()) {
+//                microInteratorPath = ServerConstants.INTEGRATION_STUDIO_HOME_MAC + File.separator
+//                        + ServerConstants.MICRO_ESB_PATH;
+//            } else {
+//                java.nio.file.Path path = Paths.get("");
+//                microInteratorPath = (path).toAbsolutePath().toString() + File.separator
+//                        + ServerConstants.MICRO_ESB_PATH;
+//            }
+//
+//        } else {
+//            java.nio.file.Path path = Paths.get("");
+//            microInteratorPath = (path).toAbsolutePath().toString() + File.separator + ServerConstants.MICRO_ESB_PATH;
+//        }
+//        return microInteratorPath;
+        return "/home/sanoj/work/RnD/4.3.0/wso2mi-1.1.0";
     }
 
     /**

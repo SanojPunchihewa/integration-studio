@@ -11,9 +11,16 @@
 			error="Please give a name to create the Integration project ">
 			<data modelProperty="mmm.project.name" type="string"
 				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Integration Project Name</data>
+			
+			<group id="project.runtime.group" title="Runtime Version" />
+				
+			<data modelProperty="project.runtime.choice" type="choice"
+				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController"
+				group="project.runtime.group">Use Default version</data>	
 				
 		    <data modelProperty="project.runtime.version" type="string"
-				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Runtime version</data>
+				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController"
+				group="project.runtime.group">Runtime version</data>
 
 			<data modelProperty="mmm.project.choice" type="choice"
 				fieldController="org.wso2.integrationstudio.esb.project.controller.ESBSolutionProjectFieldController">Wrap child modules with the parent project</data>
