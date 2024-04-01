@@ -648,31 +648,40 @@ public class ProcessSourceView {
                             || (tempTag.getqName().equals("rule") && !insideRuleSet))) {
                         if (intermediaryStack.size() > 0) {
                             XMLTag next = intermediaryStack.pop();
+                            System.out.println("L651 [STACK] Popping next : " + next.getqName());
                             intermediaryStack.push(next);
+                            System.out.println("L653 [STACK] Pushing next : " + next.getqName());
                             if (next != null && !next.getqName().equals("payloadFactory") && !next.getqName().equals("validate")) {
                                 intermediaryStack.push(tempTag);
+                                System.out.println("L656 [STACK] Pushing temp : " + tempTag.getqName());
                             }
                         } else {
                             intermediaryStack.push(tempTag);
+                            System.out.println("L660 [STACK] Pushing temp : " + tempTag.getqName());
                         }
                     }
 
                 } else if (tempTag.getqName().equals("sequence")) {
                     if (intermediaryStack.size() > 0) {
                         XMLTag next = intermediaryStack.pop();
+                        System.out.println("L667 [STACK] Popping next : " + next.getqName());
                         intermediaryStack.push(next);
+                        System.out.println("L669 [STACK] Pushing nexy : " + next.getqName());
                         if (!artifactType.equals("localEntry") && (!(next.getqName().equals("foreach")
                                 || next.getqName().equals("clone") || next.getqName().equals("iterate")
                                 || (next.getqName().equals("payloadFactory"))))) {
+                            System.out.println("L673 [STACK] Pushing temp : " + tempTag.getqName());
                             intermediaryStack.push(tempTag);
                         }
                     } else {
                         if (!artifactType.equals("localEntry") && !artifactType.equals("sequence")) {
+                            System.out.println("L678 [STACK] Pushing temp : " + tempTag.getqName());
                             intermediaryStack.push(tempTag);
                         }
                     }
                 } else if (tempTag.getqName().equals("endpoint")) {
                     if (!insideGraphicalEp || !graphicalEpInsideArtifact) {
+                        System.out.println("L684 [STACK] Pushing temp : " + tempTag.getqName());
                         intermediaryStack.push(tempTag);
                     }
                 }
@@ -680,8 +689,10 @@ public class ProcessSourceView {
             } else if (tempTag.isEndTag() || tempTag.getTagType() == 3) {// 235
 
                 if (tempTag.getValue().trim().startsWith(START_COMMENT)) {
+                    System.out.println("L692 : isComment : true" + tempTag.getValue());
                     isComment = true;
                 } else if (isComment && tempTag.getValue().trim().endsWith(END_COMMENT)) {
+                    System.out.println("L695 : isComment : false" + tempTag.getValue());
                     isComment = false;
                 }
             	
@@ -728,6 +739,7 @@ public class ProcessSourceView {
 
                     if (intermediaryStack.size() > 0) {
                         currentMediator = intermediaryStack.pop();
+                        System.out.println("L740 [STACK] Popping current : " + currentMediator.getqName());
                     }
 
                     if (!intermediary.contains(tempTag.getqName()) && ((tempTag.getTagType() == 3)
@@ -745,6 +757,7 @@ public class ProcessSourceView {
                                         || (currentMediator.getqName().equals("call") && !tempTag.getqName().equals("call"))
                                         || (currentMediator.getqName().equals("header") && !tempTag.getqName().equals("header")))) {
                             intermediaryStack.push(currentMediator);
+                            System.out.println("L758 [STACK] Pushing current : " + currentMediator.getqName());
 
                         } else if (currentMediator != null && currentMediator.getqName().equals("rule")) {
 
@@ -757,6 +770,7 @@ public class ProcessSourceView {
                             } else {
                                 if (currentMediator != null) {
                                     intermediaryStack.push(currentMediator);
+                                    System.out.println("L771 [STACK] Pushing current : " + currentMediator.getqName());
                                 }
                             }
 
@@ -764,9 +778,11 @@ public class ProcessSourceView {
                             XMLTag next;
                             if (intermediaryStack.size() > 0) {
                                 next = intermediaryStack.pop();
+                                System.out.println("L779 [STACK] Popping next : " + next.getqName());
                                 if (next != null && next.getqName() != null
                                         && (next.getqName().equals("validate") || next.getqName().equals("filter"))) {
                                     intermediaryStack.push(next);
+                                    System.out.println("L783 [STACK] Pushing next : " + next.getqName());
 
                                 } else {
                                     sourceError = mediatorValidation();
@@ -789,10 +805,13 @@ public class ProcessSourceView {
                                     || currentMediator.getqName().equals("iterate")
                                     || currentMediator.getqName().equals("payloadFactory"))) {
                                 intermediaryStack.push(currentMediator);
+                                System.out.println("L806 [STACK] Pushing current : " + currentMediator.getqName());
 
                             } else if (!artifactType.equals("localEntry") && !artifactType.equals("template")) {
+                            	
                                 sourceError = mediatorValidation();
                                 if (sourceError != null) {
+                                    System.out.println("L811 : mediatorValidation");
                                     return sourceError;
                                 }
                             }
@@ -806,6 +825,7 @@ public class ProcessSourceView {
 											|| currentMediator.getqName().equals("jsontransform"))
                                     && !tempTag.getqName().equals(currentMediator.getqName())) {
                                 intermediaryStack.push(currentMediator);
+                                System.out.println("L825 [STACK] Pushing current : " + currentMediator.getqName());
 
                             } else if ((!artifactType.equals("localEntry") && tempTag.getTagType() == 3
                                     && (currentMediator == null
@@ -819,36 +839,51 @@ public class ProcessSourceView {
                                                 || currentMediator.getqName().equals("dbreport"))
                                         && dbMediatorImtermediary.contains(tempTag.getqName())) {
                                     intermediaryStack.push(currentMediator);
+                                    System.out.println("L839 [STACK] Pushing current : " + currentMediator.getqName());
 	
                             	} else if (((!tempTag.getqName().equals("endpoint") && !isGraphicalEP(tempTag.getqName()))
                                         || (tempTag.getqName().equals("endpoint") && !insideGraphicalEp && !graphicalEpInsideArtifact && !insideTemplate))
                                 		&& (!insideTargetTag || (insideTargetTag && insideProxySequence))) {
                             		if (!isComment) {
+                                        
 	                                    sourceError = mediatorValidation();
 	                                    if (sourceError != null) {
+                                            System.out.println("L847 : mediatorValidation");
 	                                        return sourceError;
 	                                    }
                             		}
                                     if (currentMediator != null && !currentMediator.getqName().equals(tempTag.getqName())) {
                                     	intermediaryStack.push(currentMediator);
+                                        System.out.println("L852 [STACK] Pushing current : " + currentMediator.getqName());
                                     }
                                 }
                             } else if (currentMediator != null) {
                                 intermediaryStack.push(currentMediator);
+                                System.out.println("L857 [STACK] Pushing current : " + currentMediator.getqName());
                             }
                         }
 
                     } else {
-                        if (currentMediator != null && !isComment) {
+                        if (currentMediator != null) {
+                            System.out.println("Reaching L872 : Current mediator : " + currentMediator.getqName());
+                        } else {
+                            System.out.println("Reaching L872 : Current mediator : null");
+                        }
+                        System.out.println("Reaching L872 : comment : " + isComment);
+                        if (currentMediator != null) {
                             if (currentMediator.getTagType() == 4 && tempTag.getTagType() == 5 
                                     && currentMediator.getValue().equals(prev.getValue())) {
+                                System.out.println("Reaching L872 : mediatorValidation : " + tempTag.getqName());
+                               
                                 sourceError = mediatorValidation();
                                 if (sourceError != null) {
+                                    System.out.println("L875 : mediatorValidation");
                                     return sourceError;
                                 }
                                 
                             } else {
                                 intermediaryStack.push(currentMediator);
+                                System.out.println("L872 [STACK] Pushing current : " + currentMediator.getqName());
                             }
                         }
                     }
@@ -863,8 +898,10 @@ public class ProcessSourceView {
 
                 } else if (tempTag.getTagType() == 3 && artifacts.contains(tempTag.getqName())) {
                     xmlTags.push(tempTag);
+                    
                     sourceError = mediatorValidation();
                     if (sourceError != null) {
+                        System.out.println("L898 : mediatorValidation");
                         return sourceError;
                     }
                 }
@@ -872,8 +909,10 @@ public class ProcessSourceView {
             } else if (tempTag.getTagType() == 6 || tempTag.getTagType() == 7) {
                 if (tempTag.getValue().trim().startsWith(START_COMMENT)) {
                     isComment = true;
+                    System.out.println("L903 : isComment : true" + tempTag.getValue());
                 } else if (isComment && tempTag.getValue().trim().endsWith(END_COMMENT)) {
                     isComment = false;
+                    System.out.println("L906 : isComment : false" + tempTag.getValue());
                 }
             	
                 if (!isComment && prev != null && (prev.getTagType() == 4 || prev.getTagType() == 7 || prev.getTagType() == 1)) {
@@ -894,7 +933,10 @@ public class ProcessSourceView {
                 }
                 // no need to add encoding tag
             }
-
+            if (isComment && tempTag.getValue().trim().endsWith(END_COMMENT)) {
+                System.out.println("L937 : isComment : Single line false" + tempTag.getValue());
+                isComment = false;
+            }
             prev = tempTag;
         }
         return sourceError;
